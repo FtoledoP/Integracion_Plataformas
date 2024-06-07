@@ -7,7 +7,8 @@ app = Flask(__name__)
 api = Api(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-url_cliente = "http://localhost:5000/api/cliente"
+url_cliente = "http://localhost:22435/api/cliente"
+url_producto = "http://localhost:22435/api/producto"
 
 ## POST localhost:port/api/boleta 
 ## > body: json > { id_producto, cantidad, id_cliente }
@@ -16,13 +17,12 @@ class Factura(Resource):
     def post(self):
         # definimos un objeto para la respuesta de la boleta
         objRespuesta = {
-            "id_producto": 0,
+            "producto": 0,
+            "producto_id": 0,
             "precio": 0,
             "cantidad": 0,
             "total_venta": 0,
-            "id_cliente": 0,
-            "nombre_cliente": "",
-            "direccion_cliente": ""
+            "cliente_id": 0,
         }
 
         # capturamos el json que nos llega
@@ -30,16 +30,19 @@ class Factura(Resource):
 
         # generamos una nueva consulta hacia el api de cliente
         cliente_response = requests.get(url_cliente+"/"+ str(json["id_cliente"]))
+        producto_response = requests.get(url_producto+"/"+ str(json["producto_id"]))
         print(cliente_response.status_code)
-        if(cliente_response.status_code == 200):
+        if(cliente_response.status_code == 200 and producto_response.status_code == 200):
             cliente_json = cliente_response.json()
+            producto_json = producto_response.json()
 
-            objRespuesta["id_cliente"] = cliente_json["id"]
+            objRespuesta["cliente_id"] = cliente_json["id"]
             objRespuesta["nombre_cliente"] = cliente_json["razonSocial"]
             objRespuesta["direccion_cliente"] = cliente_json["direccion"]
-            objRespuesta["id_producto"] = json["producto_id"]
+            objRespuesta["producto"] = producto_json["nombre"]
+            objRespuesta["producto_id"] = producto_json["sku"]
             objRespuesta["cantidad"] = json["cantidad"]
-            objRespuesta["precio"] = 500
+            objRespuesta["precio"] = producto_json["precio"]
             objRespuesta["total_venta"] = objRespuesta["precio"] * json["cantidad"]
 
         return objRespuesta

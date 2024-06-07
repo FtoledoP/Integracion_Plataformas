@@ -1,5 +1,3 @@
 is_global = true
 build_property.RootNamespace = InversionesLtda.API
-build_property.ProjectDir = C:\Users\Frnaco\Desktop\Integracion de Plataforma CODIGO\API-Csharp\InversionesLtda.API\
-build_property.EnableComHosting = 
-build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.ProjectDir = C:\Users\Cetecom\Desktop\Integracion_Plataformas\API-Csharp\InversionesLtda.API\

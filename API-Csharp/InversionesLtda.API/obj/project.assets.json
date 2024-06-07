@@ -8,19 +8,19 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\Frnaco\\.nuget\\packages\\": {}
+    "C:\\Users\\Cetecom\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Frnaco\\Desktop\\Integracion de Plataforma CODIGO\\API-Csharp\\InversionesLtda.API\\InversionesLtda.API.csproj",
+      "projectUniqueName": "C:\\Users\\Cetecom\\Desktop\\Integracion_Plataformas\\API-Csharp\\InversionesLtda.API\\InversionesLtda.API.csproj",
       "projectName": "InversionesLtda.API",
-      "projectPath": "C:\\Users\\Frnaco\\Desktop\\Integracion de Plataforma CODIGO\\API-Csharp\\InversionesLtda.API\\InversionesLtda.API.csproj",
-      "packagesPath": "C:\\Users\\Frnaco\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Frnaco\\Desktop\\Integracion de Plataforma CODIGO\\API-Csharp\\InversionesLtda.API\\obj\\",
+      "projectPath": "C:\\Users\\Cetecom\\Desktop\\Integracion_Plataformas\\API-Csharp\\InversionesLtda.API\\InversionesLtda.API.csproj",
+      "packagesPath": "C:\\Users\\Cetecom\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Cetecom\\Desktop\\Integracion_Plataformas\\API-Csharp\\InversionesLtda.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Frnaco\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Cetecom\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -28,7 +28,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -41,11 +40,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -57,8 +51,7 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -70,7 +63,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.411\\RuntimeIdentifierGraph.json"
       }
     }
   }
