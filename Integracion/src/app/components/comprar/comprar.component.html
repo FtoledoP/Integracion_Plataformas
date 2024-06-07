@@ -1,0 +1,31 @@
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <form [formGroup]="ventaForm">
+        <div style="margin-bottom: 10px;">
+            <label for="cliente" style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #000;">Cliente:</label>
+            <div style="display: flex; align-items: center;">
+                <select id="cliente" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;" formControlName="cliente">
+                    <option *ngFor="let c of apiService.listaClientes" [value]="c.id">{{c.razonSocial}}</option>
+                </select>
+            </div>
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #000;" for="producto">Producto:</label>
+            <div style="display: flex; align-items: center;">
+                <select id="producto" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;" formControlName="producto">
+                    <option *ngFor="let c of apiService.listaProductos" [value]="c.sku">{{c.nombre}}</option>
+                </select>
+            </div>
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #000;" for="cantidad">Cantidad:</label>
+            <div style="display: flex; align-items: center;">
+                <input id="cantidad" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;" type="number" formControlName="cantidad" name="cantidad" />
+            </div>
+        </div>
+    </form>
+    <div class="modal-footer" style="margin-top: 10px;">
+        <button type="button" class="btn btn-primary" [disabled]="!ventaForm.valid" (click)="guardarVenta()">
+            Guardar
+        </button>
+    </div>
+</div>

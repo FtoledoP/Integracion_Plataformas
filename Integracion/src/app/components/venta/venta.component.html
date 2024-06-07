@@ -1,0 +1,95 @@
+<div class="text-center" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+    <button type="button" class="btn btn-primary m-1" (click)="openRutModal(addCliente)">
+        Añadir Cliente
+    </button>
+    <button type="button" class="btn btn-primary m-1" (click)="openRutModal(addProducto)">
+        Añadir Producto
+    </button>
+    <button type="button" class="btn btn-primary m-1" [routerLink]="'/comprar'">
+        Hacer venta
+    </button>
+</div>
+
+<ng-template #addCliente>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Añadir un nuevo cliente</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef?.hide()">
+            <strong>X</strong>
+        </button>
+    </div>
+    <form class="modal-body" [formGroup]="saveClienteFormGroup">
+        <div class="form-group col">
+            <label position="stacked">Id cliente:</label>
+            <input class="disabled form-control" type="text" formControlName="id" name="id"/>
+        </div>
+        <div class="form-group col">
+            <label position="stacked">Razon social u Nombre:</label>
+            <input class="disabled form-control" type="text" formControlName="razonSocial" name="razonSocial"/>
+        </div>
+        <div class="form-group col">
+            <label position="stacked">Rut cliente:</label>
+            <input class="disabled form-control" type="text" formControlName="rut" name="rut"/>
+        </div>
+        <div class="form-group col">
+            <label position="stacked">Direccion cliente:</label>
+            <input class="disabled form-control" type="text" formControlName="direccion" name="direccion"/>
+        </div>
+        <div class="form-group col">
+            <label position="stacked">Comuna cliente:</label>
+            <input class="disabled form-control" type="text" formControlName="comuna" name="comuna"/>
+        </div>
+        <div class="form-group col">
+            <label position="stacked">Correo cliente:</label>
+            <input class="disabled form-control" type="text" formControlName="email" name="email"/>
+        </div>
+        <div class="form-group col">
+            <label position="stacked">Telefono cliente:</label>
+            <input class="disabled form-control" type="text" formControlName="telefono" name="telefono"/>
+        </div>
+    </form>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">Cancelar</button>
+        <button type="button" class="btn btn-primary" [disabled]="!saveClienteFormGroup.valid" (click)="guardarCliente()">
+            Guardar
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #addProducto>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Añadir un nuevo Producto</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef?.hide()">
+            <strong>X</strong>
+        </button>
+    </div>
+    <form class="modal-body" [formGroup]="saveProductoFormGroup">
+        <div class="form-group col">
+            <label position="stacked">SKU Producto:</label>
+            <input class="disabled form-control" type="text" formControlName="sku" name="sku"/>
+        </div>
+        <div class="form-group col">
+            <label position="stacked">Nombre producto:</label>
+            <input class="disabled form-control" type="text" formControlName="nombre" name="nombre"/>
+        </div>
+        <div class="form-group col">
+            <label position="stacked">Descripcion producto:</label>
+            <input class="disabled form-control" type="text" formControlName="descripcion" name="descripcion"/>
+        </div>
+        <div class="form-group col">
+            <label position="stacked">Stock producto:</label>
+            <input class="disabled form-control" type="text" formControlName="stock" name="stock"/>
+        </div>
+        <div class="form-group col">
+            <label position="stacked">Precio producto:</label>
+            <input class="disabled form-control" type="text" formControlName="precio" name="precio"/>
+        </div>
+    </form>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">Cancelar</button>
+        <button type="button" class="btn btn-primary" [disabled]="!saveProductoFormGroup.valid" (click)="guardarProducto()">
+            Guardar
+        </button>
+    </div>
+</ng-template>
