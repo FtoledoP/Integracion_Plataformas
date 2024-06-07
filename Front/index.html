@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Front para API</title>
+</head>
+<body>
+    
+    <h1>Bienvenido al himalaya</h1>
+
+    <form>
+        
+        <label for="cboCliente">Cliente:</label>
+        <select name="cboCliente" id="cboCliente"></select>
+        <br>
+        <label for="cboProducto">Producto:</label>
+        <select name="cboProducto" id="cboProducto">
+            <option value="1">Zanahoria</option>
+            <option value="1">Cebolla</option>
+            <option value="1">Calabaza</option>
+        </select>
+        <br>
+        <label for="txtCantidad">Cantidad:</label>
+        <input type="number" name="txtCantidad" id="txtCantidad">
+        <br>
+        <button id="btnEnviar" class="btn btn-primary">Enviar</button>
+    </form>
+    <script type="text/javascript">
+        // fetch == curl
+        const cboCliente = document.getElementById('cboCliente');
+        const listaClientes = fetch("http://localhost:22435/api/cliente", {
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+            },
+            mode: 'cors'
+        });
+        listaClientes.then(async function(e){
+            await e.json().then(async function(objeto){
+                //console.log(objeto);
+                let itemsStr = "";
+                objeto.forEach(element => {
+                    console.log({element});
+                    itemsStr += "<option value='"+ element.id +"'>" + element.razonSocial + "</option>";
+                });
+                cboCliente.innerHTML = itemsStr;
+            });
+        }).catch(function(error){
+            alert(error.message);
+        }).finally(() => {
+            console.log("Termino el proceso del fetch a clientes");
+        });
+
+        function clickEnviar(e){
+            e.preventDefault();
+            const idCliente = document.getElementById("cboCliente").value;
+            const idProducto = document.getElementById("cboProducto").value;
+            const cantidad = document.getElementById("txtCantidad").value;
+            
+            const objEnvio = {
+                "id_cliente": idCliente,
+                "producto_id": idProducto,
+                "cantidad": cantidad
+            };
+            console.log({objEnvio});
+            
+            // envio a factura - API FLASK
+            fetch("http://localhost:5001/api/boleta", {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                },
+                mode: 'cors',
+                method: 'POST',
+                body: JSON.stringify(objEnvio)
+            }).then(async function(e){
+                await e.json().then((obj) => { console.log({obj}) });
+            }).catch(function(error){ alert(error.message) })
+            .finally(function(){
+                alert("Completado");
+                /*
+                JSON.parse("{ 'id': 5, 'name': 'oli' }");
+                {
+                    "id": 5,
+                    "name": "oli"
+                }
+                */
+            });
+
+        }
+
+        const btnEnviar = document.getElementById('btnEnviar');
+        btnEnviar.addEventListener("click", clickEnviar);
+    </script>
+</body>
+</html>
+
