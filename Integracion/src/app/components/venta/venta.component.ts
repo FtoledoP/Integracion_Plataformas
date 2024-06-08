@@ -48,10 +48,16 @@ export class VentaComponent {
 
   guardarCliente(){
     console.log(this.saveClienteFormGroup.value);
+    this.apiService.addCliente(this.saveClienteFormGroup.value);
+    alert('Cliente guardado con exito!');
+    this.saveClienteFormGroup.reset();
   }
 
   guardarProducto(){
     console.log(this.saveProductoFormGroup.value);
+    this.apiService.addProducto(this.saveProductoFormGroup.value);
+    alert('Producto guardado con exito!');
+    this.saveProductoFormGroup.reset();
   }
 
 }

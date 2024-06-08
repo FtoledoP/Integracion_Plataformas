@@ -1,31 +1,103 @@
 <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
     <form [formGroup]="ventaForm">
         <div style="margin-bottom: 10px;">
-            <label for="cliente" style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #000;">Cliente:</label>
+            <label for="cliente"
+                style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #000;">Cliente:</label>
             <div style="display: flex; align-items: center;">
-                <select id="cliente" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;" formControlName="cliente">
+                <select id="cliente" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;"
+                    formControlName="cliente">
+                    <option value="" disabled selected>Seleccionar cliente</option>
                     <option *ngFor="let c of apiService.listaClientes" [value]="c.id">{{c.razonSocial}}</option>
                 </select>
             </div>
         </div>
         <div style="margin-bottom: 10px;">
-            <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #000;" for="producto">Producto:</label>
-            <div style="display: flex; align-items: center;">
-                <select id="producto" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;" formControlName="producto">
-                    <option *ngFor="let c of apiService.listaProductos" [value]="c.sku">{{c.nombre}}</option>
-                </select>
+            <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #000;"
+            for="producto">Producto:</label>
+            <div style="display: flex; flex-wrap: wrap;">
+            <div *ngFor="let p of apiService.listaProductos" style="width: 200px; margin-right: 10px; margin-bottom: 10px;">
+                <div style="border: 1px solid #ccc; border-radius: 3px; padding: 10px;">
+                <input type="checkbox" id="{{p.sku}}" [value]="p.sku" style="margin-right: 5px;"
+                (change)="saveSelectedProducts(p.sku, $event)">
+                <label for="{{p.sku}}" style="font-weight: bold;">{{p.nombre}}</label>
+                <p>Precio: {{p.precio}}</p>
+                <p>Stock: {{p.stock}}</p>
+                <p>{{p.descripcion}}</p>
+                <input type="number" id="cantidad" placeholder="Cantidad" style="margin-top: 5px;" (input)="updateQuantity(p.sku, $event)">
+                </div>
+            </div>
             </div>
         </div>
         <div style="margin-bottom: 10px;">
-            <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #000;" for="cantidad">Cantidad:</label>
+            <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #000;">Método de
+                entrega:</label>
             <div style="display: flex; align-items: center;">
-                <input id="cantidad" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;" type="number" formControlName="cantidad" name="cantidad" />
+                <input type="radio" id="retiro" name="metodoEntrega" value="retiro" (change)="getSelectedMethod($event)">
+                <label for="retiro" style="margin-right: 10px;">Retiro en tienda</label>
+                <input type="radio" id="envio" name="metodoEntrega" value="envio" (change)="getSelectedMethod($event)">
+                <label for="envio">Envío a domicilio <strong>(+ $5.000)</strong></label>
+            </div>
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #000;">Método de
+                pago</label>
+            <div style="display: flex; align-items: center;">
+                <input type="radio" id="debito" name="metodoPago" value="debito" (change)="getSelectedPayment($event)">
+                <label for="retiro" style="margin-right: 10px;">Debito</label>
+                <input type="radio" id="credito" name="metodoPago" value="credito" (change)="getSelectedPayment($event)">
+                <label for="envio">Credito</label>
+                <input type="radio" id="transferencia" name="metodoPago" value="transferencia" (change)="getSelectedPayment($event)">
+                <label for="envio">Transferencia</label>
             </div>
         </div>
     </form>
     <div class="modal-footer" style="margin-top: 10px;">
-        <button type="button" class="btn btn-primary" [disabled]="!ventaForm.valid" (click)="guardarVenta()">
+        <button type="button" class="btn btn-primary" [disabled]="!ventaForm.valid" (click)="openAskModal(addProducto)">
             Guardar
         </button>
     </div>
 </div>
+
+<ng-template #addProducto>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">¿Estas seguro de compras estos productos?</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef?.hide()">
+            <strong>X</strong>
+        </button>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="guardarVenta()">
+            Comprar
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #boletaCliente>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Compra realizada correctamente</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef?.hide()">
+            <strong>X</strong>
+        </button>
+    </div>
+    <div class="modal-body">
+        <label style="font-weight: bold;">NOMBRE: {{this.dataSale.nombre_cliente}}</label>
+        <p>Id cliente: {{this.dataSale.cliente_id}}</p>
+        <p>Direccion: {{this.dataSale.direccion_cliente}}</p>
+        <label style="font-weight: bold;">PRODUCTOS:</label>
+        <div *ngFor="let p of this.dataSale.productos" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+            <p><strong>SKU: </strong>{{p.sku}}</p>
+            <p><strong>{{p.nombre}}</strong></p>
+            <p>Cantidad: {{p.cantidad}}</p>
+            <p>Precio: {{p.precio}}</p>
+        </div>
+        <label style="font-weight: bold;">METODO ENVIO:</label>
+        <p *ngIf="this.dataSale.metodo_envio === 'envio'">Envio a domicilio: {{this.dataSale.direccion_cliente}}, {{this.dataSale.comuna_cliente}}</p>
+        <p *ngIf="this.dataSale.metodo_envio != 'envio'">Retiro en tienda</p>
+        <label style="font-weight: bold;">METODO PAGO:</label>
+        <p *ngIf="this.dataSale.metodo_pago === 'debito'">Tarjeta de Débito</p>
+        <p *ngIf="this.dataSale.metodo_pago === 'credito'">Tarjeta de Credito</p>
+        <p *ngIf="this.dataSale.metodo_pago === 'transferencia'">Transferencia</p>
+        <label style="font-weight: bold;">TOTAL VENTA: {{this.dataSale.total_venta}}</label>
+    </div>
+</ng-template>

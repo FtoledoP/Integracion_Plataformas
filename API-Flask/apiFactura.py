@@ -17,10 +17,7 @@ class Factura(Resource):
     def post(self):
         # definimos un objeto para la respuesta de la boleta
         objRespuesta = {
-            "producto": 0,
-            "producto_id": 0,
-            "precio": 0,
-            "cantidad": 0,
+            "productos": 0,
             "total_venta": 0,
             "cliente_id": 0,
         }
@@ -30,20 +27,37 @@ class Factura(Resource):
 
         # generamos una nueva consulta hacia el api de cliente
         cliente_response = requests.get(url_cliente+"/"+ str(json["id_cliente"]))
-        producto_response = requests.get(url_producto+"/"+ str(json["producto_id"]))
+        # generamos una nueva consulta hacia el api de producto por cada id
+        producto_ids = json["productos"]
+        print(producto_ids)
+        productos = []
+        for producto_id in producto_ids:
+            producto_response = requests.get(url_producto + "/" + str(producto_id["id"]))
+            if producto_response.status_code == 200:
+                producto_json = {}
+                producto_json["nombre"] = producto_response.json()["nombre"]
+                producto_json["sku"] = producto_response.json()["sku"]
+                producto_json["precio"] = producto_response.json()["precio"]
+                producto_json["cantidad"] = producto_id["cantidad"]
+                productos.append(producto_json)
         print(cliente_response.status_code)
-        if(cliente_response.status_code == 200 and producto_response.status_code == 200):
+        print(productos)
+        if(cliente_response.status_code == 200):
             cliente_json = cliente_response.json()
             producto_json = producto_response.json()
 
+            for producto in productos:
+                objRespuesta["total_venta"] += producto["precio"] * producto["cantidad"]
+            if(json["metodo_envio"] == "envio"):
+                objRespuesta["total_venta"] += 5000
             objRespuesta["cliente_id"] = cliente_json["id"]
             objRespuesta["nombre_cliente"] = cliente_json["razonSocial"]
             objRespuesta["direccion_cliente"] = cliente_json["direccion"]
-            objRespuesta["producto"] = producto_json["nombre"]
-            objRespuesta["producto_id"] = producto_json["sku"]
-            objRespuesta["cantidad"] = json["cantidad"]
-            objRespuesta["precio"] = producto_json["precio"]
-            objRespuesta["total_venta"] = objRespuesta["precio"] * json["cantidad"]
+            objRespuesta["comuna_cliente"] = cliente_json["comuna"]
+            objRespuesta["productos"] = productos
+            objRespuesta["metodo_envio"] = json["metodo_envio"]
+            objRespuesta["metodo_pago"] = json["metodo_pago"]
+            
 
         return objRespuesta
     
