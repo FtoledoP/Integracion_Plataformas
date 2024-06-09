@@ -9,7 +9,7 @@
 - Angular/CLI: v16
 
 #### Contenido
-- Api-csharp: API Cliente y API Productos
+- Api-csharp: API Cliente y API Producto
 - Api-flask: API Factura y API Logistica
 - Front con Angular para probar las funcionalidades de las APIS
 
@@ -21,7 +21,7 @@
    - `pip install flask`
    - `pip install -r requirements.txt`
    - `python apifactura.py`
-   - `python apilogistica`
+   - `python apilogistica.py`
 
 4. Dentro de la carpeta integracion en la terminal:
    - `npm install @angular/cli@16`
