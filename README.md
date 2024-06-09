@@ -31,6 +31,7 @@
 5. Ahora se puede utilizar el Front 🤠
 
 ## Informacion adicional
+- Tener en cuenta los puertos que se usan al iniciar las APIS, si no son las mismas en el codigo, no funcionaran 💀
 - La pagina inicial es para hacer una `Venta` seleccionando los campos que aparecen
 - En la esquina inferior derecha hay dos botones, uno para `agregar Productos y/o Clientes`, para facilitar ese proceso y otro para ver las `Boletas emitidas` (Al hacer una compra)
 - En la pagina de `Boletas emitidas` se mostraran todas las boletas por cada usuario que las haya emitido, al seleccionar una se abre un modal, en el cual si la boleta no esta confirmada aparecera un boton, y si esta confirmado no.
