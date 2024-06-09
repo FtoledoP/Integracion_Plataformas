@@ -33,5 +33,5 @@
 ## Informacion adicional
 - La pagina inicial es para hacer una `Venta` seleccionando los campos que aparecen
 - En la esquina inferior derecha hay dos botones, uno para `agregar Productos y/o Clientes`, para facilitar ese proceso y otro para ver las `Boletas emitidas` (Al hacer una compra)
-- En la pagina de `Boletas emitidas` se mostraran todas las boletas por cada usuario que las haya emitida, al seleccionar una se abre un modal, en el cual si la boleta no esta confirmada aparecera un boton, y si esta confirmado no.
+- En la pagina de `Boletas emitidas` se mostraran todas las boletas por cada usuario que las haya emitido, al seleccionar una se abre un modal, en el cual si la boleta no esta confirmada aparecera un boton, y si esta confirmado no.
 - Al momento de confirmar una `Boleta`, se actualizara el estado de tal boleta (Se puede apreciar en la misma vista de la boleta) y se actualizara el stock de los productos relacionados a la boleta (Apreciable al volver a la pagina de `Venta`)
