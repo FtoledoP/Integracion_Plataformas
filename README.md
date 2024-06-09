@@ -18,15 +18,15 @@
 1. Inicializar las APIS en C#
 
 2. Dentro de la carpeta api-flask en CMD ingresar:
-   - ´´´pip install flask´´´
-   - ´´´pip install -r requirements.txt´´´
-   - ´´´python apifactura.py´´´
-   - ´´´python apilogistica´´´
+   - `pip install flask`
+   - `pip install -r requirements.txt`
+   - `python apifactura.py`
+   - `python apilogistica`
 
 4. Dentro de la carpeta integracion en la terminal:
-   - ´´´npm install @angular/cli@16´´´
-   - ´´´npm install´´´
-   - ´´´ng serve´´´
+   - `npm install @angular/cli@16`
+   - `npm install`
+   - `ng serve`
   
 5. Ahora se puede utilizar el Front 🤠
 
