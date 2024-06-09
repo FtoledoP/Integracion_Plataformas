@@ -122,4 +122,27 @@ export class ApiService {
       });
     });
   }
+
+  async confirmDelivery(boleta:any){
+    try {
+      const response = await fetch('http://localhost:5002/api/logistica', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        mode: 'cors',
+        method: 'POST',
+        body: JSON.stringify(boleta),
+      });
+      const obj = await response.json();
+      if (obj) {
+        return true;
+      }
+      return false;
+    } catch (error:any) {
+      alert(error.message);
+      return false;
+    }
+  }
+
 }

@@ -15,6 +15,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { BoletasComponent } from './components/boletas/boletas.component';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -35,7 +37,9 @@ import { BoletasComponent } from './components/boletas/boletas.component';
     MatSelectModule,
     MatFormFieldModule,
     NgSelectModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    NgxSpinnerModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     BsModalService,
