@@ -24,7 +24,7 @@
    - `python apilogistica.py`
 
 4. Dentro de la carpeta integracion en la terminal:
-   - `npm install @angular/cli@16`
+   - `npm install -g @angular/cli@16`
    - `npm install`
    - `ng serve`
   
