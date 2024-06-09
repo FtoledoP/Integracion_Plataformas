@@ -23,8 +23,25 @@ export class ApiService {
     }).then(async (response) => {
       response.json().then((data) => {
         this.listaClientes = data;
+        this.getBoletasForClientes();
       });
     });
+  }
+
+  async getBoletasForClientes() {
+    for (let cliente of this.listaClientes) {
+      await fetch(`http://localhost:5001/api/boleta/cliente/${cliente.id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        mode: 'cors',
+      }).then(async (response) => {
+        response.json().then((data) => {
+          cliente.boletas = data;
+        });
+      });
+    }
   }
 
   async getProductos() {
@@ -39,6 +56,18 @@ export class ApiService {
         this.listaProductos = data;
       });
     });
+  }
+
+  async getBoletaById(boletaId: number) {
+    const response = await fetch(`http://localhost:5001/api/boleta/${boletaId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      mode: 'cors',
+    });
+    const boleta = await response.json();
+    return boleta;
   }
 
   async generarBoleta(data: any) {

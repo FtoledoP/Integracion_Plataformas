@@ -18,6 +18,7 @@ export class ComprarComponent {
   selectedPayment:any;
   public modalRef: BsModalRef | undefined;
   dataSale:any
+  loading:boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -36,35 +37,51 @@ export class ComprarComponent {
   }
 
   async guardarVenta(){
+    this.modalRef?.hide();
     const objEnviar = {
       id_cliente: this.ventaForm.value.cliente,
       productos: this.selectedProducts,
       metodo_envio: this.selectedMethod,
       metodo_pago: this.selectedPayment
     }
+    console.log('OBJ ENVIAR ---->', objEnviar);
     this.dataSale = await this.apiService.generarBoleta(objEnviar)
+    console.log('DATA SALE ---->', this.dataSale);
     this.openBoletaModal();
   }
 
-  saveSelectedProducts(id:any, event:any){
-    event.target.checked ? this.selectedProducts.push({id: id})
-    :
-    this.removeProduct(id);
+  toggleProductSelection(id: any, event: any) {
+    if (event.target.checked) {
+      this.selectedProducts.push({ id: id, cantidad: 0 });
+    } else {
+      this.removeProduct(id);
+      this.resetQuantityInput(id);
+    }
   }
 
-  updateQuantity(id:any, event:any){
-    const index = this.selectedProducts.findIndex((item:any) => item.id === id);
-    if(index !== -1){
+  updateQuantity(id: any, event: any) {
+    const index = this.selectedProducts.findIndex(item => item.id === id);
+    if (index !== -1) {
       this.selectedProducts[index].cantidad = parseInt(event.target.value);
     }
   }
 
   removeProduct(id: number) {
-    const index = this.selectedProducts.findIndex((item: any) => item.id === id);
-    console.log('INDEX ---->', index);
+    const index = this.selectedProducts.findIndex(item => item.id === id);
     if (index !== -1) {
       this.selectedProducts.splice(index, 1);
     }
+  }
+
+  resetQuantityInput(id: number) {
+    const inputElement = document.getElementById('cantidad_' + id) as HTMLInputElement;
+    if (inputElement) {
+      inputElement.value = '';
+    }
+  }
+
+  isProductSelected(id: any): boolean {
+    return this.selectedProducts.some(item => item.id === id);
   }
 
   getSelectedMethod(event:any){
@@ -76,6 +93,18 @@ export class ComprarComponent {
   }
 
   openAskModal(template: any) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
+  }
+
+  openPaymentModal(template: any) {
+    this.modalRef?.hide();
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+      setTimeout(() => {
+        this.guardarVenta()
+      }, 2000);
+    }, 3500);
     this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
   }
   

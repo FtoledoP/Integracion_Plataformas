@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { VentaComponent } from './components/venta/venta.component';
 import { ComprarComponent } from './components/comprar/comprar.component';
+import { BoletasComponent } from './components/boletas/boletas.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/venta',
+    redirectTo: '/comprar',
     pathMatch: 'full'
   },
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'comprar',  
     component: ComprarComponent
+  },
+  {
+    path: 'boletas',  
+    component: BoletasComponent
   },
   {
     path: '**',

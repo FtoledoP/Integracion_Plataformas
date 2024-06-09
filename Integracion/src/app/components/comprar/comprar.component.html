@@ -1,4 +1,4 @@
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column;">
     <form [formGroup]="ventaForm">
         <div style="margin-bottom: 10px;">
             <label for="cliente"
@@ -13,63 +13,99 @@
         </div>
         <div style="margin-bottom: 10px;">
             <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #000;"
-            for="producto">Producto:</label>
+                for="producto">Producto:</label>
             <div style="display: flex; flex-wrap: wrap;">
-            <div *ngFor="let p of apiService.listaProductos" style="width: 200px; margin-right: 10px; margin-bottom: 10px;">
-                <div style="border: 1px solid #ccc; border-radius: 3px; padding: 10px;">
-                <input type="checkbox" id="{{p.sku}}" [value]="p.sku" style="margin-right: 5px;"
-                (change)="saveSelectedProducts(p.sku, $event)">
-                <label for="{{p.sku}}" style="font-weight: bold;">{{p.nombre}}</label>
-                <p>Precio: {{p.precio}}</p>
-                <p>Stock: {{p.stock}}</p>
-                <p>{{p.descripcion}}</p>
-                <input type="number" id="cantidad" placeholder="Cantidad" style="margin-top: 5px;" (input)="updateQuantity(p.sku, $event)">
+                <div *ngFor="let p of apiService.listaProductos"
+                    style="width: 200px; margin-right: 10px; margin-bottom: 10px;">
+                    <div style="border: 1px solid #ccc; border-radius: 3px; padding: 10px;">
+                        <input type="checkbox" id="{{p.sku}}" [value]="p.sku" style="margin-right: 5px;"
+                            (change)="toggleProductSelection(p.sku, $event)">
+                        <label for="{{p.sku}}" style="font-weight: bold;">{{p.nombre}}</label>
+                        <p>Precio: <strong>{{p.precio | currency}}</strong></p>
+                        <p>Stock: {{p.stock}}</p>
+                        <p>{{p.descripcion}}</p>
+                        <input type="number" id="cantidad_{{p.sku}}" placeholder="Cantidad" style="margin-top: 5px;"
+                            [disabled]="!isProductSelected(p.sku)" (input)="updateQuantity(p.sku, $event)">
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
         <div style="margin-bottom: 10px;">
-            <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #000;">Método de
-                entrega:</label>
+            <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #000;">Método
+                de entrega:</label>
             <div style="display: flex; align-items: center;">
-                <input type="radio" id="retiro" name="metodoEntrega" value="retiro" (change)="getSelectedMethod($event)">
+                <input type="radio" id="retiro" name="metodoEntrega" value="retiro"
+                    (change)="getSelectedMethod($event)">
                 <label for="retiro" style="margin-right: 10px;">Retiro en tienda</label>
                 <input type="radio" id="envio" name="metodoEntrega" value="envio" (change)="getSelectedMethod($event)">
                 <label for="envio">Envío a domicilio <strong>(+ $5.000)</strong></label>
             </div>
         </div>
         <div style="margin-bottom: 10px;">
-            <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #000;">Método de
-                pago</label>
+            <label style="display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #000;">Método
+                de pago:</label>
             <div style="display: flex; align-items: center;">
                 <input type="radio" id="debito" name="metodoPago" value="debito" (change)="getSelectedPayment($event)">
-                <label for="retiro" style="margin-right: 10px;">Debito</label>
-                <input type="radio" id="credito" name="metodoPago" value="credito" (change)="getSelectedPayment($event)">
-                <label for="envio">Credito</label>
-                <input type="radio" id="transferencia" name="metodoPago" value="transferencia" (change)="getSelectedPayment($event)">
-                <label for="envio">Transferencia</label>
+                <label for="debito" style="margin-right: 10px;">Debito</label>
+                <input type="radio" id="credito" name="metodoPago" value="credito"
+                    (change)="getSelectedPayment($event)">
+                <label for="credito">Credito</label>
+                <input type="radio" id="transferencia" name="metodoPago" value="transferencia"
+                    (change)="getSelectedPayment($event)">
+                <label for="transferencia">Transferencia</label>
             </div>
         </div>
     </form>
-    <div class="modal-footer" style="margin-top: 10px;">
+    <div style="margin-top: 20px;">
         <button type="button" class="btn btn-primary" [disabled]="!ventaForm.valid" (click)="openAskModal(addProducto)">
             Guardar
         </button>
     </div>
 </div>
 
+<button type="button" class="btn btn-secondary" style="position: fixed; bottom: 10px; right: 10px;"
+        [routerLink]="'/venta'">
+    Añadir productos y clientes
+</button>
+
+<button type="button" class="btn btn-secondary" style="position: fixed; bottom: 50px; right: 10px;"
+        [routerLink]="'/boletas'">
+    Ver boletas emitidas
+</button>
+
 <ng-template #addProducto>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">¿Estas seguro de compras estos productos?</h4>
+        <h4 class="modal-title pull-left">¿Estás seguro de comprar estos productos?</h4>
         <button type="button" class="close" aria-label="Close" (click)="modalRef?.hide()">
             <strong>X</strong>
         </button>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="guardarVenta()">
+        <button type="button" class="btn btn-primary" (click)="openPaymentModal(payment)">
             Comprar
         </button>
+    </div>
+</ng-template>
+
+<ng-template #payment>
+    <div *ngIf="loading" class="modal-header" style="text-align: center;">
+        <h4 class="modal-title pull-left">Procesando pago...</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef?.hide()">
+            <strong>X</strong>
+        </button>
+    </div>
+    <div *ngIf="!loading" class="modal-header" style="text-align: center;">
+        <h4 class="modal-title pull-left">Pago realizado correctamente</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef?.hide()">
+            <strong>X</strong>
+        </button>
+    </div>
+    <div *ngIf="loading" class="modal-body" style="display: flex; justify-content: center; align-items: center;">
+        <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!loading" class="modal-body">
+        <h3>Pago exitoso, se motrara tu boleta en unos segundos...</h3>
     </div>
 </ng-template>
 
@@ -81,23 +117,27 @@
         </button>
     </div>
     <div class="modal-body">
+        <p><strong>ID BOLETA: {{this.dataSale.id_boleta}}</strong></p>
+        <p><strong>ESTADO BOLETA: {{this.dataSale.estado}}</strong></p>
         <label style="font-weight: bold;">NOMBRE: {{this.dataSale.nombre_cliente}}</label>
         <p>Id cliente: {{this.dataSale.cliente_id}}</p>
         <p>Direccion: {{this.dataSale.direccion_cliente}}</p>
         <label style="font-weight: bold;">PRODUCTOS:</label>
-        <div *ngFor="let p of this.dataSale.productos" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+        <div *ngFor="let p of this.dataSale.productos"
+            style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
             <p><strong>SKU: </strong>{{p.sku}}</p>
             <p><strong>{{p.nombre}}</strong></p>
             <p>Cantidad: {{p.cantidad}}</p>
-            <p>Precio: {{p.precio}}</p>
+            <p>Precio: <strong>{{p.precio | currency}}</strong></p>
         </div>
-        <label style="font-weight: bold;">METODO ENVIO:</label>
-        <p *ngIf="this.dataSale.metodo_envio === 'envio'">Envio a domicilio: {{this.dataSale.direccion_cliente}}, {{this.dataSale.comuna_cliente}}</p>
-        <p *ngIf="this.dataSale.metodo_envio != 'envio'">Retiro en tienda</p>
-        <label style="font-weight: bold;">METODO PAGO:</label>
+        <label style="font-weight: bold;">MÉTODO ENVÍO:</label>
+        <p *ngIf="this.dataSale.metodo_envio === 'envio'">Envío a domicilio: {{this.dataSale.direccion_cliente}},
+            {{this.dataSale.comuna_cliente}}</p>
+        <p *ngIf="this.dataSale.metodo_envio !== 'envio'">Retiro en tienda</p>
+        <label style="font-weight: bold;">MÉTODO PAGO:</label>
         <p *ngIf="this.dataSale.metodo_pago === 'debito'">Tarjeta de Débito</p>
-        <p *ngIf="this.dataSale.metodo_pago === 'credito'">Tarjeta de Credito</p>
+        <p *ngIf="this.dataSale.metodo_pago === 'credito'">Tarjeta de Crédito</p>
         <p *ngIf="this.dataSale.metodo_pago === 'transferencia'">Transferencia</p>
-        <label style="font-weight: bold;">TOTAL VENTA: {{this.dataSale.total_venta}}</label>
+        <label style="font-weight: bold;">TOTAL VENTA: {{this.dataSale.total_venta | currency}}</label>
     </div>
 </ng-template>

@@ -1,0 +1,60 @@
+<button type="button" class="btn btn-secondary" style="position: fixed; top: 10px; right: 10px;"
+        [routerLink]="'/comprar'">
+    Volver a ventas
+</button>
+
+<div style="display: flex; flex-wrap: wrap;">
+    <div *ngFor="let cliente of apiService.listaClientes" style="width: 30%; margin: 10px; border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
+        <h2>{{ cliente.razonSocial }}</h2>
+        <p><strong>RUT:</strong> {{ cliente.rut }}</p>
+        <p><strong>Dirección:</strong> {{ cliente.direccion }}</p>
+        <p><strong>Comuna:</strong> {{ cliente.comuna }}</p>
+        <p><strong>Email:</strong> {{ cliente.email }}</p>
+        <p><strong>Teléfono:</strong> {{ cliente.telefono }}</p>
+        <div>
+            <label for="boletasSelect_{{ cliente.id }}">Boletas:</label>
+            <select id="boletasSelect_{{ cliente.id }}" (change)="openBoletaModal($event)">
+                <option value="" disabled selected>Seleccionar boleta</option>
+                <option *ngFor="let boleta of cliente.boletas" [value]="boleta.id_boleta">{{ boleta.id_boleta }}</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #boletaModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Detalle de la Boleta</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef?.hide()">
+            <strong>X</strong>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p><strong>ID BOLETA: {{selectedBoleta.id_boleta}}</strong></p>
+        <p><strong>ESTADO BOLETA: {{selectedBoleta.estado}}</strong></p>
+        <label style="font-weight: bold;">CLIENTE: {{selectedBoleta.nombre_cliente}}</label>
+        <p>ID cliente: {{selectedBoleta.cliente_id}}</p>
+        <p>Direccion: {{selectedBoleta.direccion_cliente}}</p>
+        <p>Comuna: {{selectedBoleta.comuna_cliente}}</p>
+        <label style="font-weight: bold;">PRODUCTOS:</label>
+        <div *ngFor="let p of selectedBoleta.productos"
+            style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+            <p><strong>SKU: </strong>{{p.sku}}</p>
+            <p><strong>{{p.nombre}}</strong></p>
+            <p>Cantidad: {{p.cantidad}}</p>
+            <p>Precio: <strong>{{p.precio | currency}}</strong></p>
+        </div>
+        <label style="font-weight: bold;">MÉTODO ENVÍO:</label>
+        <p *ngIf="selectedBoleta.metodo_envio === 'envio'">Envío a domicilio: {{selectedBoleta.direccion_cliente}},
+            {{selectedBoleta.comuna_cliente}}</p>
+        <p *ngIf="selectedBoleta.metodo_envio !== 'envio'">Retiro en tienda</p>
+        <label style="font-weight: bold;">MÉTODO PAGO:</label>
+        <p *ngIf="selectedBoleta.metodo_pago === 'debito'">Tarjeta de Débito</p>
+        <p *ngIf="selectedBoleta.metodo_pago === 'credito'">Tarjeta de Crédito</p>
+        <p *ngIf="selectedBoleta.metodo_pago === 'transferencia'">Transferencia</p>
+        <label style="font-weight: bold;">TOTAL VENTA: {{selectedBoleta.total_venta | currency}}</label>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="confirmarEntrega()">Confirmar entrega</button>
+    </div>
+</ng-template>

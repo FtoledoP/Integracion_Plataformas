@@ -13,13 +13,16 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { NgSelectModule } from '@ng-select/ng-select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { BoletasComponent } from './components/boletas/boletas.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     VentaComponent,
-    ComprarComponent
+    ComprarComponent,
+    BoletasComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     MatInputModule,
     MatSelectModule,
     MatFormFieldModule,
-    NgSelectModule
+    NgSelectModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     BsModalService,
