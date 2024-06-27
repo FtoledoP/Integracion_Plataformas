@@ -20,37 +20,38 @@
     <form class="modal-body" [formGroup]="saveClienteFormGroup">
         <div class="form-group col">
             <label position="stacked">Id cliente:</label>
-            <input class="disabled form-control" type="number" formControlName="id" name="id"/>
+            <input class="disabled form-control" type="number" formControlName="id" name="id" />
         </div>
         <div class="form-group col">
             <label position="stacked">Razon social u Nombre:</label>
-            <input class="disabled form-control" type="text" formControlName="razonSocial" name="razonSocial"/>
+            <input class="disabled form-control" type="text" formControlName="razonSocial" name="razonSocial" />
         </div>
         <div class="form-group col">
             <label position="stacked">Rut cliente:</label>
-            <input class="disabled form-control" type="text" formControlName="rut" name="rut"/>
+            <input class="disabled form-control" type="text" formControlName="rut" name="rut" />
         </div>
         <div class="form-group col">
             <label position="stacked">Direccion cliente:</label>
-            <input class="disabled form-control" type="text" formControlName="direccion" name="direccion"/>
+            <input class="disabled form-control" type="text" formControlName="direccion" name="direccion" />
         </div>
         <div class="form-group col">
             <label position="stacked">Comuna cliente:</label>
-            <input class="disabled form-control" type="text" formControlName="comuna" name="comuna"/>
+            <input class="disabled form-control" type="text" formControlName="comuna" name="comuna" />
         </div>
         <div class="form-group col">
             <label position="stacked">Correo cliente:</label>
-            <input class="disabled form-control" type="text" formControlName="email" name="email"/>
+            <input class="disabled form-control" type="text" formControlName="email" name="email" />
         </div>
         <div class="form-group col">
             <label position="stacked">Telefono cliente:</label>
-            <input class="disabled form-control" type="number" formControlName="telefono" name="telefono"/>
+            <input class="disabled form-control" type="number" formControlName="telefono" name="telefono" />
         </div>
     </form>
 
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">Cancelar</button>
-        <button type="button" class="btn btn-primary" [disabled]="!saveClienteFormGroup.valid" (click)="guardarCliente()">
+        <button type="button" class="btn btn-primary" [disabled]="!saveClienteFormGroup.valid"
+            (click)="guardarCliente()">
             Guardar
         </button>
     </div>
@@ -66,29 +67,30 @@
     <form class="modal-body" [formGroup]="saveProductoFormGroup">
         <div class="form-group col">
             <label position="stacked">SKU Producto:</label>
-            <input class="disabled form-control" type="number" formControlName="sku" name="sku"/>
+            <input class="disabled form-control" type="number" formControlName="sku" name="sku" />
         </div>
         <div class="form-group col">
             <label position="stacked">Nombre producto:</label>
-            <input class="disabled form-control" type="text" formControlName="nombre" name="nombre"/>
+            <input class="disabled form-control" type="text" formControlName="nombre" name="nombre" />
         </div>
         <div class="form-group col">
             <label position="stacked">Descripcion producto:</label>
-            <input class="disabled form-control" type="text" formControlName="descripcion" name="descripcion"/>
+            <input class="disabled form-control" type="text" formControlName="descripcion" name="descripcion" />
         </div>
         <div class="form-group col">
             <label position="stacked">Stock producto:</label>
-            <input class="disabled form-control" type="number" formControlName="stock" name="stock"/>
+            <input class="disabled form-control" type="number" formControlName="stock" name="stock" />
         </div>
         <div class="form-group col">
             <label position="stacked">Precio producto:</label>
-            <input class="disabled form-control" type="number" formControlName="precio" name="precio"/>
+            <input class="disabled form-control" type="number" formControlName="precio" name="precio" />
         </div>
     </form>
 
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="modalRef?.hide()">Cancelar</button>
-        <button type="button" class="btn btn-primary" [disabled]="!saveProductoFormGroup.valid" (click)="guardarProducto()">
+        <button type="button" class="btn btn-primary" [disabled]="!saveProductoFormGroup.valid"
+            (click)="guardarProducto()">
             Guardar
         </button>
     </div>

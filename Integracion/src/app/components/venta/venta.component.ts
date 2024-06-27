@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class VentaComponent {
     private modalService: BsModalService,
     private fb: FormBuilder,
     public bsModalRef: BsModalRef,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private toastr: ToastrService
   ) {
     this.saveClienteFormGroup = this.fb.group({
       id: ['', Validators.required],
@@ -49,15 +51,17 @@ export class VentaComponent {
   guardarCliente(){
     console.log(this.saveClienteFormGroup.value);
     this.apiService.addCliente(this.saveClienteFormGroup.value);
-    alert('Cliente guardado con exito!');
+    this.toastr.success('Cliente guardado con exito!');
     this.saveClienteFormGroup.reset();
+    this.modalRef?.hide();
   }
 
   guardarProducto(){
     console.log(this.saveProductoFormGroup.value);
     this.apiService.addProducto(this.saveProductoFormGroup.value);
-    alert('Producto guardado con exito!');
+    this.toastr.success('Producto guardado con exito!');
     this.saveProductoFormGroup.reset();
+    this.modalRef?.hide();
   }
 
 }
