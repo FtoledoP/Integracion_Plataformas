@@ -13,6 +13,7 @@ import { Flowbite } from '../decorador';
 @Flowbite()
 export class ComprarComponent implements OnInit {
   @ViewChild('boletaCliente') boletaCliente: TemplateRef<any> | undefined;
+  @ViewChild('advertiseModal') advertiseModal: ElementRef;
   public ventaForm: FormGroup;
   selectedCliente: any;
   clientes: any;
@@ -22,7 +23,8 @@ export class ComprarComponent implements OnInit {
   public modalRef: BsModalRef | undefined;
   dataSale: any;
   loading: boolean = false;
-  totalPrice: number = 0; // Precio total de todos los productos en el carrito
+  totalPrice: number = 0; 
+  plus5000:boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -30,11 +32,17 @@ export class ComprarComponent implements OnInit {
     private modalService: BsModalService,
     private toastr: ToastrService
   ) {
+    this.advertiseModal = new ElementRef(null);
     this.ventaForm = this.fb.group({
       customer: ['', Validators.required],
       shipment: ['', Validators.required],
       payment: ['', Validators.required]
     });
+  }
+
+  toggleModal() {
+    this.advertiseModal.nativeElement.classList.toggle('hidden');
+    this.advertiseModal.nativeElement.setAttribute('aria-modal', 'true');
   }
 
   ngOnInit() {
@@ -147,6 +155,47 @@ export class ComprarComponent implements OnInit {
 
   comprar(){
     console.log(this.ventaForm.value)
+    console.log(this.selectedProducts.map(item => ({ id: item.sku, cantidad: item.cantidad })));
+    const objEnviar = {
+      id_cliente: this.ventaForm.value.customer,
+      productos: this.selectedProducts.map(item => ({ id: item.sku, cantidad: item.cantidad })),
+      metodo_envio: this.ventaForm.value.shipment,
+      metodo_pago: this.ventaForm.value.payment
+    };
+    console.log('OBJ ENVIAR ---->', objEnviar);
+    this.apiService.generarBoleta(objEnviar).then(data => {
+      this.dataSale = data;
+      localStorage.clear();
+      this.selectedProducts = [];
+      this.ventaForm.reset();
+      console.log('DATA SALE ---->', this.dataSale);
+      this.openBoletaModal();
+    });
+  }
+
+  async increaseProgressBar(duration:any){
+    const progressBar = document.getElementById('progressBar');
+    let width = 0;
+    let percent = 0;
+
+    const interval = 10; // Intervalo de tiempo para incrementar el porcentaje (ms)
+    const increment = 100 / (duration / interval); // Incremento por cada intervalo
+
+    const timer = setInterval(async() => {
+      width += increment;
+      percent = Math.round(width); // Asegura que el porcentaje sea un número entero
+
+      if (percent >= 100) {
+        percent = 100;
+        clearInterval(timer);
+        this.comprar();
+      }
+
+      if(progressBar){
+        progressBar.style.width = percent + '%';
+        progressBar.textContent = percent + '%';
+      }
+    }, interval);
   }
 
 }
