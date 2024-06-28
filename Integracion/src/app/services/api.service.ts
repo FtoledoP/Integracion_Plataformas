@@ -8,13 +8,16 @@ export class ApiService {
   public listaProductos: any[] = [];
   listo:boolean = false;
 
+  url_api_cliente = 'https://integracionplataformasapi.azurewebsites.net/api/cliente';
+  url_api_producto = 'https://integracionplataformasapi.azurewebsites.net/api/producto';
+
   constructor() {
     this.getClientes();
     this.getProductos();
   }
 
   async getClientes() {
-    await fetch('http://localhost:22435/api/cliente', {
+    await fetch(this.url_api_cliente, {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -45,7 +48,7 @@ export class ApiService {
   }
 
   async getProductos() {
-    await fetch('http://localhost:22435/api/producto', {
+    await fetch(this.url_api_producto, {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -92,7 +95,7 @@ export class ApiService {
 
   async addCliente(data: any) {
     console.log(JSON.stringify(data));
-    fetch('http://localhost:22435/api/cliente', {
+    fetch(this.url_api_cliente, {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -108,7 +111,7 @@ export class ApiService {
   }
 
   async addProducto(data: any) {
-    fetch('http://localhost:22435/api/producto', {
+    fetch(this.url_api_producto, {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
