@@ -8,8 +8,8 @@ app = Flask(__name__)
 api = Api(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-url_cliente = "http://localhost:22435/api/cliente"
-url_producto = "http://localhost:22435/api/producto"
+url_cliente = "https://integracionplataformasapi.azurewebsites.net/api/cliente"
+url_producto = "https://integracionplataformasapi.azurewebsites.net/api/producto"
 
 class Factura(Resource):
     facturas = []
@@ -118,5 +118,5 @@ api.add_resource(Factura, "/api/boleta")
 api.add_resource(FacturaPorId, "/api/boleta/<int:id_boleta>")
 api.add_resource(FacturaPorCliente, "/api/boleta/cliente/<int:id_cliente>")
 
-if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+if __name__ == '__main__':
+    app.run()   
