@@ -8,8 +8,8 @@ app = Flask(__name__)
 api = Api(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-url_cliente = "http://localhost:22435/api/cliente"
-url_producto = "http://localhost:22435/api/producto"
+url_cliente = "https://integracionplataformasapi.azurewebsites.net/api/cliente"
+url_producto = "https://integracionplataformasapi.azurewebsites.net/api/producto"
 url_boleta = "http://localhost:5001/api/boleta"
 
 class Logistica(Resource):
