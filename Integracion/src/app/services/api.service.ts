@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class ApiService {
   public listaClientes: any[] = [];
   public listaProductos: any[] = [];
+  public listaBoletas: any[] = [];
   listo:boolean = false;
 
   url_api_cliente = 'https://integracionplataformasapi.azurewebsites.net/api/cliente';
@@ -45,6 +46,19 @@ export class ApiService {
         });
       });
     }
+  }
+
+  async getAllBoletas() {
+    const response = await fetch('http://localhost:5001/api/boleta', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      mode: 'cors',
+    });
+    const boletas = await response.json();
+    this.listaBoletas = boletas;
+    console.log('BOLETAS ------>' , this.listaBoletas);
   }
 
   async getProductos() {

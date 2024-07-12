@@ -17,6 +17,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { BoletasComponent } from './components/boletas/boletas.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ToastrModule } from 'ngx-toastr';
+import { GestionComponent } from './components/gestion/gestion.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ToastrModule } from 'ngx-toastr';
     AppComponent,
     VentaComponent,
     ComprarComponent,
-    BoletasComponent
+    BoletasComponent,
+    GestionComponent
   ],
   imports: [
     BrowserModule,

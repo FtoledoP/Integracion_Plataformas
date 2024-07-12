@@ -72,6 +72,11 @@
     </button>
 </div>
 
+<button type="button" class="btn btn-secondary" style="position: fixed; bottom: 90px; right: 10px;"
+        [routerLink]="'/gestion'">
+    Ver boletas emitidas por estado de compra
+</button>
+
 <button type="button" class="btn btn-secondary" style="position: fixed; bottom: 10px; right: 10px;"
         [routerLink]="'/venta'">
     Añadir productos y clientes
@@ -79,7 +84,7 @@
 
 <button type="button" class="btn btn-secondary" style="position: fixed; bottom: 50px; right: 10px;"
         [routerLink]="'/boletas'">
-    Ver boletas emitidas
+    Ver boletas emitidas por clientes
 </button>
 
 <ng-template #boletaCliente>
