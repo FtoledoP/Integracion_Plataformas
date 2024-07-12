@@ -118,5 +118,5 @@ api.add_resource(Factura, "/api/boleta")
 api.add_resource(FacturaPorId, "/api/boleta/<int:id_boleta>")
 api.add_resource(FacturaPorCliente, "/api/boleta/cliente/<int:id_cliente>")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True, port=5001)
